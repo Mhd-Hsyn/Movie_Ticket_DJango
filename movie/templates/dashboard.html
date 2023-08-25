@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    
+    <h1>
+        Hello User 
+    </h1>
+
+    <div>
+
+        {% if request.user.is_authenticated %}
+
+        
+        <label for="" style="padding: 5px;"> Hi {{user.username}}  {{user.first_name}}  {{user.last_name}} </label>
+        <a href="logout">
+            <button style="width: 200px; height: 30px; padding: 5px; ">logout</button>
+        </a>
+        <br><br><br><br>
+
+        {% for movie in movie  %}
+
+        <a href="{% url 'movie:showtime' movie.id %}">{{movie.title}}</a>
+        <br><br>
+        
+        {% endfor %}
+
+        <br><br><br><br>
+
+        <h2>Your Reservation</h2>
+
+        
+        {% for reser in reser  %}
+        
+        <form method="post" >
+        {% csrf_token %}
+        <p>
+            
+                Movie Name:   <b>{{reser.show_time.movie.title}}</b>  <br>
+                Movie Date:  <b>{{reser.show_time.start_time}} </b> 
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                
+                <button type="submit" name="reser_id" value="{{reser.id}}"> Cancel Seat</button>
+                <br>
+
+                Your Seat No:  <b>{{reser.seat_no}}</b> 
+                <br><br>
+                
+
+        </p>    
+         </form>
+        {% endfor %}
+
+         {%else%}
+
+        <a href=" {% url 'user:register' %} ">
+            <button style="width: 200px; height: 30px; padding: 5px; " >Register</button>
+        </a>
+
+        <a href=" {% url 'user:login' %} ">
+            <button style="width: 200px; height: 30px; padding: 5px; ">login</button>
+        </a> 
+
+        {%endif%}
+      
+    </div>
+
+</body>
+</html>

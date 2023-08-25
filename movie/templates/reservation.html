@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   
+    <h1>Already reserved Seats </h1>
+
+     <div>
+        <b>
+        total seats are {{total_seats}}
+        </b>
+    </div>
+    <br><br>
+
+    {% for reservation in reser  %}
+    
+    {% comment %} <li>{{reser}}</li> {% endcomment %}
+    <div>
+        <p>
+            For Movie <b>{{reservation.show_time.movie.title}} </b> at time <b>{{reservation.show_time.start_time}}</b> Seat Number  <b>{{ reservation.seat_no }}</b> is Booked
+        </p>
+    </div>
+    
+    {% endfor %}
+
+
+    <br><br>
+
+    <h3>Available seats are only {{available_seats}}</h3>
+
+     <form method="post" >
+        {% csrf_token %}
+        {% for seat in total_seats_range %}
+        
+            {% if seat in booked_seat_no %}
+
+                {% if  seat in ur_reser_seats %}
+                        <button type="button" class="booked" disabled style="background-color: blue;">Seat No {{ seat }} </button>
+
+                {% else %}
+                 <button type="button" class="booked" disabled style="background-color: red;">Seat No {{ seat }} </button>
+
+
+                    {% endif %}
+               
+               
+
+            {% else %}
+                <button type="submit" name="seat_no" value="{{ seat }}">Seat No {{ seat }}</button>
+            {% endif %}
+        {% endfor %}
+
+
+
+        
+
+
+
+        
+        
+
+    </form>
+
+
+    <br><br>
+
+    <h2>Your Reservation</h2>
+
+    {% for ur_reser in ur_reser %}
+    
+    <p>
+        {{ur_reser}} Seat Number {{ur_reser.seat_no}}
+    </p>
+
+    {% endfor %}
+
+</body>
+</html>
